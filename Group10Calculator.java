@@ -125,7 +125,9 @@ public class Group10Calculator implements ActionListener{
 			// Current token is an operator.
 			else if (tokens[i] == '+' ||
 					tokens[i] == '-' ||
-					tokens[i] == '*')
+					tokens[i] == '*' ||
+					tokens[i] == '/' ||
+					tokens[i] == '^')
 			{
 				// While top of 'ops' has same
 				// or greater precedence to current
@@ -174,11 +176,13 @@ public class Group10Calculator implements ActionListener{
 	{
 		if (op2 == '(' || op2 == ')')
 			return false;
-		if ((op1 == '*' ) &&
-				(op2 == '+' || op2 == '-'))
+		if ((op1 == '^' ) && (op2 == '*' || op2 == '/'))
 			return false;
-		else
-			return true;
+		if ((op1 == '*' ) && (op2 == '+' || op2 == '-'))
+			return false;
+		if ((op1 == '/' ) && (op2 == '+' || op2 == '-'))
+			return false;
+		else return true;
 	}
 
 	// A utility method to apply an
@@ -195,6 +199,10 @@ public class Group10Calculator implements ActionListener{
 			return a - b;
 		case '*':
 			return a * b;
+		case '/':
+			return a / b;
+		case '^':
+			return (int) Math.pow(a,b);
 		}
 		return 0;
 	}
