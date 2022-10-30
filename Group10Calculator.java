@@ -1,10 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 import java.util.Stack;
 
-public class Group18Calculator implements ActionListener{
+public class Group10Calculator implements ActionListener{
 
 	JFrame frame;
 
@@ -23,7 +22,7 @@ public class Group18Calculator implements ActionListener{
 
 	char operator;
 
-	Group18Calculator (){
+	Group10Calculator (){
 
 		frame = new JFrame("Calculator");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,9 +54,7 @@ public class Group18Calculator implements ActionListener{
 		frame.setVisible(true);
 	}
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		Group18Calculator calc = new Group18Calculator();
+		Group10Calculator calc = new Group10Calculator();
 	}
 
 
