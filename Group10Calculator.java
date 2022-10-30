@@ -15,7 +15,7 @@ public class Group10Calculator implements ActionListener{
 	static String output;
 	static int finalresult;
 	static String exp;
-	static int result;
+	static double result;
 	static boolean falseinput = false;
 
 	Font myFont = new Font("Ariel", Font.BOLD,30);
@@ -32,8 +32,6 @@ public class Group10Calculator implements ActionListener{
 		textfield = new JTextField();
 		textfield.setBounds(50, 25, 300, 50);
 		textfield.setFont(myFont);
-
-
 
 		equButton = new JButton("=");
 		clrButton = new JButton("Clear");
@@ -57,44 +55,34 @@ public class Group10Calculator implements ActionListener{
 		Group10Calculator calc = new Group10Calculator();
 	}
 
-
-
-	public static int evaluate(String expression)
+	public static double evaluate(String expression)
 	{
 		char[] tokens = expression.toCharArray();
 
 		// Stack for numbers: 'values'
-		Stack<Integer> values = new
-				Stack<Integer>();
+		Stack<Double> values = new Stack<>();
 
 		// Stack for Operators: 'ops'
-		Stack<Character> ops = new
-				Stack<Character>();
+		Stack<Character> ops = new Stack<>();
 
 		for (int i = 0; i < tokens.length; i++)
 		{
 
-			// Current token is a
-			// whitespace, skip it
-			if (tokens[i] == ' ')
-				continue;
+			// Current token is a whitespace, skip it
+			if (tokens[i] == ' ') continue;
 
-			// Current token is a number,
-			// push it to stack for numbers
-			if (tokens[i] >= '0' &&
-					tokens[i] <= '9')
+			// Current token is a number, push it to stack for numbers
+			if (tokens[i] >= '0' && tokens[i] <= '9')
 			{
-				StringBuffer sbuf = new
-						StringBuffer();
+				//StringBuffer sbuf = new StringBuffer();
+				StringBuilder num = new StringBuilder();
 
 				// There may be more than one
 				// digits in number
-				while (i < tokens.length &&
-						tokens[i] >= '0' &&
-						tokens[i] <= '9')
-					sbuf.append(tokens[i++]);
-				values.push(Integer.parseInt(sbuf.
-						toString()));
+				while (i < tokens.length && (tokens[i] >= '0' && tokens[i] <= '9' || tokens[i] == '.')){
+					num.append(tokens[i++]);
+				}
+					values.push(Double.parseDouble(num.toString()));
 
 				// right now the i points to
 				// the character next to the digit,
@@ -123,23 +111,16 @@ public class Group10Calculator implements ActionListener{
 			}
 
 			// Current token is an operator.
-			else if (tokens[i] == '+' ||
-					tokens[i] == '-' ||
-					tokens[i] == '*' ||
-					tokens[i] == '/' ||
-					tokens[i] == '^')
+			else if (tokens[i] == '+' || tokens[i] == '-' || tokens[i] == '*' ||
+					tokens[i] == '/' || tokens[i] == '^')
 			{
 				// While top of 'ops' has same
 				// or greater precedence to current
 				// token, which is an operator.
 				// Apply operator on top of 'ops'
 				// to top two elements in values stack
-				while (!ops.empty() &&
-						hasPrecedence(tokens[i],
-								ops.peek()))
-					values.push(applyOp(ops.pop(),
-							values.pop(),
-							values.pop()));
+				while (!ops.empty() && hasPrecedence(tokens[i], ops.peek()))
+					values.push(applyOp(ops.pop(), values.pop(), values.pop()));
 
 				// Push current token to 'ops'.
 				ops.push(tokens[i]);
@@ -157,9 +138,7 @@ public class Group10Calculator implements ActionListener{
 		// parsed at this point, apply remaining
 		// ops to remaining values
 		while (!ops.empty())
-			values.push(applyOp(ops.pop(),
-					values.pop(),
-					values.pop()));
+			values.push(applyOp(ops.pop(), values.pop(), values.pop()));
 
 		// Top of 'values' contains
 		// result, return it
@@ -188,8 +167,8 @@ public class Group10Calculator implements ActionListener{
 	// A utility method to apply an
 	// operator 'op' on operands 'a'
 	// and 'b'. Return the result.
-	public static int applyOp(char op,
-			int b, int a)
+	public static double applyOp(char op,
+			double b, double a)
 	{
 		switch (op)
 		{
@@ -202,19 +181,15 @@ public class Group10Calculator implements ActionListener{
 		case '/':
 			return a / b;
 		case '^':
-			return (int) Math.pow(a,b);
+			return (double) Math.pow(a,b);
 		}
 		return 0;
 	}
 
 
-
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
-		if(e.getSource()==equButton)
+		if(e.getSource() == equButton)
 		{
 			input = textfield.getText();
 
