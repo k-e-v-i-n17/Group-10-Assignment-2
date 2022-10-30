@@ -125,6 +125,46 @@ public class Group10Calculator implements ActionListener{
 				// Push current token to 'ops'.
 				ops.push(tokens[i]);
 			}
+
+			// Current token is e, signalling exp() function
+			else if (tokens[i] == 'e')
+			{
+				//skip to the number
+				i=i+4;	//'e'->'x'->'p'->'('->
+				
+				//StringBuffer sbuf = new StringBuffer();
+				StringBuilder num = new StringBuilder();
+	
+				// There may be more than one
+				// digits in number
+				while (i < tokens.length && (tokens[i] >= '0' && tokens[i] <= '9' || tokens[i] == '.')){
+					num.append(tokens[i++]);
+				}
+					double num2 = Double.parseDouble(num.toString());
+					num2 = Math.exp(num2);
+					values.push(num2);
+			}
+
+			// Current token is l, signalling log() function
+			else if (tokens[i] == 'l')
+			{
+				//skip to the number
+				i=i+4;	//'l'->'o'->'g'->'('->
+				
+				//StringBuffer sbuf = new StringBuffer();
+				StringBuilder num = new StringBuilder();
+	
+				// There may be more than one
+				// digits in number
+				while (i < tokens.length && (tokens[i] >= '0' && tokens[i] <= '9' || tokens[i] == '.')){
+					num.append(tokens[i++]);
+				}
+					double num3 = Double.parseDouble(num.toString());
+					num3 = Math.log(num3);
+					values.push(num3);
+			}
+				
+			
 			//If the input is none of the above, then it is not valid
 			else
 			{
