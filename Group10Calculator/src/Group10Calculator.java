@@ -113,7 +113,9 @@ public class Group10Calculator implements ActionListener{
 			// Current token is an operator.
 			else if (tokens[i] == '+' ||
 					tokens[i] == '-' ||
-					tokens[i] == '*')
+					tokens[i] == '*' ||
+					tokens[i] == '/' ||
+					tokens[i] == '^')
 			{
 				// While top of 'ops' has same or greater precedence to current token, which is an operator.
 				// Apply operator on top of 'ops' to top two elements in values stack
@@ -152,7 +154,11 @@ public class Group10Calculator implements ActionListener{
 	{
 		if (op2 == '(' || op2 == ')')
 			return false;
+		if ((op1 == '^' ) && (op2 == '*' || op2 == '/'))
+			return false;
 		if ((op1 == '*' ) && (op2 == '+' || op2 == '-'))
+			return false;
+		if ((op1 == '/' ) && (op2 == '+' || op2 == '-'))
 			return false;
 		else return true;
 	}
@@ -165,6 +171,8 @@ public class Group10Calculator implements ActionListener{
 			case '+' -> a + b;
 			case '-' -> a - b;
 			case '*' -> a * b;
+			case '/' -> a / b;
+			case '^' -> (int) Math.pow(a,b); //remove (int) when doubles work
 			default -> 0;
 		};
 	}
