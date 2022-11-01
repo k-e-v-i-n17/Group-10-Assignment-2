@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.Stack;
 
 public class Group10Calculator implements ActionListener{
@@ -65,6 +66,12 @@ public class Group10Calculator implements ActionListener{
 		// Stack for Operators: 'ops'
 		Stack<Character> ops = new Stack<>();
 
+		// a valid expression will always have at least 3 tokens
+		if (tokens.length <= 2){
+			falseinput = true;
+			return 0;
+		}
+
 		for (int i = 0; i < tokens.length; i++)
 		{
 
@@ -77,19 +84,12 @@ public class Group10Calculator implements ActionListener{
 				//StringBuffer sbuf = new StringBuffer();
 				StringBuilder num = new StringBuilder();
 
-				// There may be more than one
-				// digits in number
+				// There may be more than one digit in the number
 				while (i < tokens.length && (tokens[i] >= '0' && tokens[i] <= '9' || tokens[i] == '.')){
 					num.append(tokens[i++]);
 				}
 					values.push(Double.parseDouble(num.toString()));
 
-				// right now the i points to
-				// the character next to the digit,
-				// since the for loop also increases
-				// the i, we would skip one
-				//  token position; we need to
-				// decrease the value of i by 1 to
 				// correct the offset.
 				i--;
 			}
@@ -99,14 +99,11 @@ public class Group10Calculator implements ActionListener{
 			else if (tokens[i] == '(')
 				ops.push(tokens[i]);
 
-			// Closing brace encountered,
-			// solve entire brace
+			// Closing brace encountered, solve entire brace
 			else if (tokens[i] == ')')
 			{
 				while (ops.peek() != '(')
-					values.push(applyOp(ops.pop(),
-							values.pop(),
-							values.pop()));
+					values.push(applyOp(ops.pop(), values.pop(), values.pop()));
 				ops.pop();
 			}
 
@@ -114,17 +111,51 @@ public class Group10Calculator implements ActionListener{
 			else if (tokens[i] == '+' || tokens[i] == '-' || tokens[i] == '*' ||
 					tokens[i] == '/' || tokens[i] == '^')
 			{
-				// While top of 'ops' has same
-				// or greater precedence to current
-				// token, which is an operator.
-				// Apply operator on top of 'ops'
-				// to top two elements in values stack
-				while (!ops.empty() && hasPrecedence(tokens[i], ops.peek()))
+				// While top of 'ops' has same or greater precedence to current operator,
+				// apply operator on top of 'ops' to top two elements in values stack
+				if (!ops.isEmpty() && values.size() >= 2){
+					while (!ops.empty() && hasPrecedence(tokens[i], ops.peek()))
 					values.push(applyOp(ops.pop(), values.pop(), values.pop()));
-
+				}
+				if (ops.size() >= 1 && values.size() < 2){
+					falseinput = true;
+					return 0;
+				}
 				// Push current token to 'ops'.
 				ops.push(tokens[i]);
 			}
+
+			// exp() function
+			else if (tokens[i] == 'e' && tokens[++i] == 'x' && tokens[++i] == 'p')
+			{
+				// skip bracket
+				i += 2; 
+				
+				StringBuilder num = new StringBuilder();
+	
+				// get all the digits in the number
+				while (i < tokens.length && (tokens[i] >= '0' && tokens[i] <= '9' || tokens[i] == '.')){
+					num.append(tokens[i++]);
+				}
+				// get the exp of the number and push it to the stack of values
+				values.push(Math.exp(Double.parseDouble(num.toString())));
+			}
+
+			// log() function
+			else if (tokens[i] == 'l' && tokens[++i] == 'o' && tokens[++i] == 'g')
+			{
+				i += 2;
+				
+				StringBuilder num = new StringBuilder();
+	
+				// get all the digits of the number
+				while (i < tokens.length && (tokens[i] >= '0' && tokens[i] <= '9' || tokens[i] == '.')){
+					num.append(tokens[i++]);
+				}
+				// get the log of the number and push it to the stack of values
+				values.push(Math.log(Double.parseDouble(num.toString())));
+			}
+				
 			//If the input is none of the above, then it is not valid
 			else
 			{
@@ -202,7 +233,8 @@ public class Group10Calculator implements ActionListener{
 			else
 			{
 				System.out.println(result);
-				textfield.setText(String.valueOf(result));
+				DecimalFormat df = new DecimalFormat("#.###");
+				textfield.setText(df.format(result));
 			}
 
 		}
