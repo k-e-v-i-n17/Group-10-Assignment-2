@@ -14,7 +14,7 @@ public class Group10CalculatorTest {
     public  ArrayList<String> expectedList=new ArrayList<String>(0);
     @Test
     public void addBasic() {
-        org.junit.Assert.assertEquals((8), (Group10Calculator.evaluate("5+2")));
+        org.junit.Assert.assertEquals((7), (Group10Calculator.evaluate("5+2")));
     }
     @Test
     public void addAndSubtract() {
