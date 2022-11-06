@@ -58,6 +58,7 @@ public class Group10Calculator implements ActionListener{
 
 	public static double evaluate(String expression)
 	{
+		falseinput = false;
 		char[] tokens = expression.toCharArray();
 
 		// Stack for numbers: 'values'
@@ -198,8 +199,7 @@ public class Group10Calculator implements ActionListener{
 	// A utility method to apply an
 	// operator 'op' on operands 'a'
 	// and 'b'. Return the result.
-	public static double applyOp(char op,
-			double b, double a)
+	public static double applyOp(char op, double b, double a)
 	{
 		switch (op)
 		{
@@ -216,7 +216,6 @@ public class Group10Calculator implements ActionListener{
 		}
 		return 0;
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
