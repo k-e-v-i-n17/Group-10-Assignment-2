@@ -18,6 +18,7 @@ public class Group10Calculator implements ActionListener{
 	static String exp;
 	static double result;
 	static boolean falseinput = false;
+	static boolean ifValid = true;
 
 	Font myFont = new Font("Ariel", Font.BOLD,30);
 
@@ -47,7 +48,7 @@ public class Group10Calculator implements ActionListener{
 		clrButton.setBounds(205, 430, 145, 50);
 
 		frame.add(equButton);
-		frame.add(clrButton); 
+		frame.add(clrButton);
 		frame.add(textfield);
 
 		frame.setVisible(true);
@@ -59,6 +60,7 @@ public class Group10Calculator implements ActionListener{
 	public static double evaluate(String expression)
 	{
 		falseinput = false;
+		ifValid = true;
 		char[] tokens = expression.toCharArray();
 
 		// Stack for numbers: 'values'
@@ -70,6 +72,7 @@ public class Group10Calculator implements ActionListener{
 		// a valid expression will always have at least 3 tokens
 		if (tokens.length <= 2){
 			falseinput = true;
+			ifValid = false;
 			return 0;
 		}
 
@@ -89,7 +92,7 @@ public class Group10Calculator implements ActionListener{
 				while (i < tokens.length && (tokens[i] >= '0' && tokens[i] <= '9' || tokens[i] == '.')){
 					num.append(tokens[i++]);
 				}
-					values.push(Double.parseDouble(num.toString()));
+				values.push(Double.parseDouble(num.toString()));
 
 				// correct the offset.
 				i--;
@@ -100,7 +103,7 @@ public class Group10Calculator implements ActionListener{
 			else if (tokens[i] == '(')
 				ops.push(tokens[i]);
 
-			// Closing brace encountered, solve entire brace
+				// Closing brace encountered, solve entire brace
 			else if (tokens[i] == ')')
 			{
 				while (ops.peek() != '(')
@@ -116,10 +119,11 @@ public class Group10Calculator implements ActionListener{
 				// apply operator on top of 'ops' to top two elements in values stack
 				if (!ops.isEmpty() && values.size() >= 2){
 					while (!ops.empty() && hasPrecedence(tokens[i], ops.peek()))
-					values.push(applyOp(ops.pop(), values.pop(), values.pop()));
+						values.push(applyOp(ops.pop(), values.pop(), values.pop()));
 				}
 				if (ops.size() >= 1 && values.size() < 2){
 					falseinput = true;
+					ifValid = false;
 					return 0;
 				}
 				// Push current token to 'ops'.
@@ -130,10 +134,10 @@ public class Group10Calculator implements ActionListener{
 			else if (tokens[i] == 'e' && tokens[++i] == 'x' && tokens[++i] == 'p')
 			{
 				// skip bracket
-				i += 2; 
-				
+				i += 2;
+
 				StringBuilder num = new StringBuilder();
-	
+
 				// get all the digits in the number
 				while (i < tokens.length && (tokens[i] >= '0' && tokens[i] <= '9' || tokens[i] == '.')){
 					num.append(tokens[i++]);
@@ -146,9 +150,9 @@ public class Group10Calculator implements ActionListener{
 			else if (tokens[i] == 'l' && tokens[++i] == 'o' && tokens[++i] == 'g')
 			{
 				i += 2;
-				
+
 				StringBuilder num = new StringBuilder();
-	
+
 				// get all the digits of the number
 				while (i < tokens.length && (tokens[i] >= '0' && tokens[i] <= '9' || tokens[i] == '.')){
 					num.append(tokens[i++]);
@@ -156,11 +160,12 @@ public class Group10Calculator implements ActionListener{
 				// get the log of the number and push it to the stack of values
 				values.push(Math.log(Double.parseDouble(num.toString())));
 			}
-				
+
 			//If the input is none of the above, then it is not valid
 			else
 			{
-				falseinput = true;      
+				falseinput = true;
+				ifValid = false;
 				return 0;
 
 			}
@@ -203,16 +208,16 @@ public class Group10Calculator implements ActionListener{
 	{
 		switch (op)
 		{
-		case '+':
-			return a + b;
-		case '-':
-			return a - b;
-		case '*':
-			return a * b;
-		case '/':
-			return a / b;
-		case '^':
-			return (double) Math.pow(a,b);
+			case '+':
+				return a + b;
+			case '-':
+				return a - b;
+			case '*':
+				return a * b;
+			case '/':
+				return a / b;
+			case '^':
+				return (double) Math.pow(a,b);
 		}
 		return 0;
 	}
@@ -244,5 +249,8 @@ public class Group10Calculator implements ActionListener{
 
 	}
 
+	public static boolean getIfValid() {
+		return ifValid;
+	}
 
 }
