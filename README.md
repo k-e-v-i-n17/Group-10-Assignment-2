@@ -13,4 +13,4 @@ Calculator web app developed as part of a CSU33012 Software Engineering group as
 * Adam - Unit testing, Maven intergration
 * Kevin - Repo owner, calculator functions
 * AJ - Calculator functions, debugging, repo management
-* Zehao - Docker CD
+* Zehao - Docker CD, Web application process
