@@ -22,10 +22,10 @@ public class Main extends HttpServlet
             double result = 0;
             String input = request.getParameter("t1");
 
-            result = Group10Calculator.evaluate(input);
             boolean valid = Group10Calculator.getIfValid();
 
             if(valid != false) {
+                result = Group10Calculator.evaluate(input);
                 DecimalFormat df = new DecimalFormat("0.000");
                 writer.println("<center><br><br><h1>" + "The result is : " + df.format(result) + "</h1></center>");
             }

@@ -158,7 +158,8 @@ public class Group10Calculator implements ActionListener{
 					num.append(tokens[i++]);
 				}
 				// get the log of the number and push it to the stack of values
-				values.push(Math.log(Double.parseDouble(num.toString())));
+
+					values.push(Math.log(Double.parseDouble(num.toString())));
 			}
 
 			//If the input is none of the above, then it is not valid
