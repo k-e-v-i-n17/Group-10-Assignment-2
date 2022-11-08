@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Y3S1-SWENG-Ass1" target="15" />
+      <module name="Y3S1-SWENG-Ass1" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
